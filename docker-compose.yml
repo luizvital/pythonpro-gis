@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: postgis/postgis:12-master
+    environment: 
+      - POSTGRES_DB=geo
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  jupyter:
+    build: .
+    ports:
+      - 8888:8888
+    environment: 
+      - GRANT_SUDO=yes
+      - DJANGO_ALLOW_ASYNC_UNSAFE=true
+    user: root
+    volumes: 
+      - ./work:/home/jovyan/work
+    depends_on: 
+      - db
